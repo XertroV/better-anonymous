@@ -1,0 +1,22 @@
+{{#if model}}
+<table class="table">
+    <thead>
+        {{!-- <th>{{i18n 'discourse_subscriptions.user.payments.id'}}</th> --}}
+        <th>Anon User</th>
+        <th>Active?</th>
+        <th></th>
+    </thead>
+    {{#each model as |anon_user|}}
+    <tr>
+        <td>{{anon_user.username}}</td>
+        <td>{{anon_user.active}}</td>
+        <td>todo: activate button</td>
+    </tr>
+    {{/each}}
+</table>
+{{else}}
+<div class="alert alert-info">
+    {{!-- {{i18n 'discourse_subscriptions.user.payments_help'}} --}}
+    SOMETHING WENT WRONG
+</div>
+{{/if}}
