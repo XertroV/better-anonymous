@@ -6,8 +6,10 @@ module BetterAnonymous
 
     def create_new_shadow_user
       user = current_user
-      master_user = user.anonymous_user_master || user
-      curr_shadow = user.shadow_user
+      master_user = user.master_user || user
+      curr_shadow = master_user.shadow_user
+
+      # todo: it's possible to be an active anon user and make new anon users (so the current anon user is inactive and the new anon user is active, but you're logged in to the first anon user still)
 
       # we want to temporarily change the curr_shadow user's last_posted_at time so that we can trigger creation of a new anon account.
       modify_curr_shadow = !!curr_shadow

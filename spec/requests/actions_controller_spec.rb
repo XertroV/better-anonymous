@@ -151,4 +151,8 @@ describe BetterAnonymous::ActionsController do
     expect(response.status).to eq(401)
   end
 
+  it "# todo: it's possible to be an active anon user and make new anon users (so the current anon user is inactive and the new anon user is active, but you're logged in to the first anon user still)"
+
+  it "creates anon users properly when you're anon (might need to be acceptance test)"
+
 end
