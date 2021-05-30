@@ -109,6 +109,18 @@ describe BetterAnonymous::ActionsController do
     expect(session[:current_user_id]).to eq(anon_ids[1])
     post "/u/toggle-anon.json"
     expect(session[:current_user_id]).to eq(user.id)
+
+    # simulate activating an old anon account
+    anon_1_user = User.find(anon_ids[1])
+    anon_1_user.last_posted_at = SiteSetting.anonymous_account_duration_minutes.minutes.ago - 1
+    anon_1_user.save!
+    stat = anon_1_user.user_stat
+    stat.post_count += 1
+    stat.save!
+
+    post "/better-anonymous/set_active.json", params: {shadow_user_id: anon_ids[1]}
+    post "/u/toggle-anon.json"
+    expect(session[:current_user_id]).to eq(anon_ids[1])
   end
 
   it 'refuses to change other ppls anon accounts' do

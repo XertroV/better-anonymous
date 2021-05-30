@@ -37,6 +37,8 @@ module BetterAnonymous
       end
 
       new_shadow = AnonymousShadowCreator.get(master_user)
+      new_shadow.created_at = DateTime.new(2999, 1, 1, 1, 1, 1)
+      new_shadow.save!
       # puts("new shadow: #{new_shadow.to_json}")
       # puts("user.shadow_user: #{user.shadow_user.to_json}")
 
@@ -74,8 +76,12 @@ module BetterAnonymous
       # activate the one we care about
       AnonymousUser.where(user_id: requested_active_shadow_user_id, master_user_id: master_user.id).update_all(active: true)
 
+      shadow_user = User.find(requested_active_shadow_user_id)
+      shadow_user.created_at = DateTime.new(2999, 1, 1, 1, 1, 1)
+      shadow_user.last_posted_at = DateTime.new(2999, 1, 1, 1, 1, 1)
+      shadow_user.save!
       if request_made_from_shadow
-        log_on_user(AnonymousShadowCreator.get(master_user))
+        log_on_user(shadow_user)
       end
 
       return render json: success_json
