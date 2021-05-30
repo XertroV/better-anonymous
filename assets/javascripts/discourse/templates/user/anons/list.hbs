@@ -1,22 +1,35 @@
 {{#if model}}
-<table class="table">
+<table class="better-anonymous-user-table">
     <thead>
-        {{!-- <th>{{i18n 'discourse_subscriptions.user.payments.id'}}</th> --}}
         <th>Anon User</th>
         <th>Active?</th>
         <th></th>
     </thead>
     {{#each model as |anon_user|}}
     <tr>
-        <td>{{anon_user.username}}</td>
+        <td>
+            {{avatar anon_user imageSize="medium" usernamePath="username"}}
+            <span class="username">{{anon_user.username}}</span>
+        </td>
         <td>{{anon_user.active}}</td>
-        <td>todo: activate button</td>
+        <td>
+            {{#if anon_user.active}}
+            {{else}}
+            {{d-button action=(action "activateAnonClick" anon_user) class="better-anon-activate-btn" disabled=loading label="better_anonymous.btn.activate_anon"}}
+            {{/if}}
+        </td>
     </tr>
     {{/each}}
 </table>
+<div>
+    {{d-button action="newAnonClick" class="better-anon-new-btn" disabled=loading label="better_anonymous.btn.new_anon"}}
+</div>
 {{else}}
 <div class="alert alert-info">
     {{!-- {{i18n 'discourse_subscriptions.user.payments_help'}} --}}
-    SOMETHING WENT WRONG
+    You don't own any anonymous user accounts.
+    <div>
+        {{d-button action="newAnonClick" class="better-anon-new-btn" disabled=loading label="better_anonymous.btn.new_anon"}}
+    </div>
 </div>
 {{/if}}

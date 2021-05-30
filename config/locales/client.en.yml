@@ -1,6 +1,9 @@
 en:
   js:
     better_anonymous:
+      btn:
+        new_anon: Create New Anonymous User
+        activate_anon: Activate Anonymous User
       navigation:
         label: "Anonymous Users"
         list: "List"

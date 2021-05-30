@@ -1,3 +1,3 @@
 #!/usr/bin/bash
 
-cd ../../ && d/rake plugin:spec['better-anonymous']
+cd ../../ && bundle exec rake plugin:spec['better-anonymous']

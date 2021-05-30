@@ -3,7 +3,7 @@ module BetterAnonymous
     requires_plugin BetterAnonymous
 
     before_action :ensure_logged_in
-    
+
     def create_new_shadow_user
       user = current_user
       master_user = user.anonymous_user_master || user
@@ -47,16 +47,21 @@ module BetterAnonymous
 
     def list_shadow_users
       user = current_user
-      master_user = user.anonymous_user_master || user
-      all_shadow_users = AnonymousUser.where(master_user: master_user).each do |au| au.user end
-      render json: all_shadow_users.each do |u| BasicUserSerializer.new(u).as_json end
+      master_user = user.master_user || user
+      shadow_users = AnonymousUser.where(master_user_id: master_user.id).map { |au|
+        { :user => BasicUserSerializer.new(au.user), :active => au.active }
+      }
+
+      # all_shadow_users = User.where(id: shadow_user_ids)
+      # render json: all_shadow_users.each do |u| BasicUserSerializer.new(u).as_json end
+      render json: shadow_users
     end
 
     def set_active_shadow_user
       requested_active_shadow_user_id = params[:shadow_user_id]
       user = current_user
       master_user = user.master_user || user
-      
+
       puts("set_active_shadow_user Request from user #{user.id} w/ master #{master_user.id} to activate #{requested_active_shadow_user_id} -- master: #{master_user}")
       # make sure this is a valid request first
       return render(json: failed_json, status: 401) unless AnonymousUser.where(user_id: requested_active_shadow_user_id, master_user_id: master_user.id).count == 1
