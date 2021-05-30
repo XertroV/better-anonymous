@@ -1,6 +1,6 @@
 # BetterAnonymous
 
-BetterAnonymous is a plugin for improving the anonymous mode in discourse.
+BetterAnonymous is a Discourse plugin for improving the anonymous mode.
 
 Features:
 

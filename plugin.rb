@@ -14,6 +14,12 @@ enabled_site_setting :better_anonymous_enabled
 
 PLUGIN_NAME ||= 'BetterAnonymous'
 
+Discourse::Application.routes.append do
+  get 'u/:username/anons' => 'users#show', constraints: { username: USERNAME_ROUTE_FORMAT }
+  get 'u/:username/anons/list' => 'users#show', constraints: { username: USERNAME_ROUTE_FORMAT }
+end
+
+
 load File.expand_path('lib/better-anonymous/engine.rb', __dir__)
 
 after_initialize do
@@ -26,5 +32,6 @@ after_initialize do
   #     # OwnedAnonymousUser.create(user)
   #   end
   # end
+
 
 end

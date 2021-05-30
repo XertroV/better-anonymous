@@ -1,7 +1,7 @@
 export default function() {
   this.route("better-anonymous", function() {
-    this.route("actions", function() {
-      this.route("show", { path: "/:id" });
+    this.route("anonymous-users", function() {
+      this.route("show");
     });
   });
 };

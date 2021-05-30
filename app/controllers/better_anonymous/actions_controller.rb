@@ -3,14 +3,6 @@ module BetterAnonymous
     requires_plugin BetterAnonymous
 
     before_action :ensure_logged_in
-
-    def index
-      render_json_dump({ actions: [] })
-    end
-
-    def show
-      render_json_dump({ action: { id: params[:id] } })
-    end
     
     def create_new_shadow_user
       user = current_user
@@ -56,7 +48,7 @@ module BetterAnonymous
     def list_shadow_users
       user = current_user
       master_user = user.anonymous_user_master || user
-      all_shadow_users = AnonymousUser.where(master_user: master_user)
+      all_shadow_users = AnonymousUser.where(master_user: master_user).each do |au| au.user end
       render json: all_shadow_users.each do |u| BasicUserSerializer.new(u).as_json end
     end
 

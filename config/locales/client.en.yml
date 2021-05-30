@@ -1,3 +1,6 @@
 en:
   js:
     better_anonymous:
+      navigation:
+        label: "Anonymous Users"
+        list: "List"
